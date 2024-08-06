@@ -10,10 +10,15 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ Public method require auth of bool retun type """
-        if not path or not excluded_paths or path not in excluded_paths:
+
+        if not path or not excluded_paths:
             return True
-        if path in excluded_paths or "/api/v1/status/" in excluded_paths:
+        if not path[-1] == "/":
+                path = path + "/"
+        if path in excluded_paths:
             return False
+        return True
+        # if path is None or excluded_paths
 
     def authorization_header(self, request=None) -> str:
         """Returns None"""
