@@ -8,7 +8,7 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
-from typing import TypeVar
+# from typing import TypeVar
 
 VALID_FIELDS = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
 
@@ -20,7 +20,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -55,8 +55,8 @@ class DB:
         session = self._session
         try:
             return session.query(User).filter_by(**kwargs).one()
-        except Exception:
-            raise NoResultFound
+        except Exception as exc:
+            raise NoResultFound from exc
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """
