@@ -11,7 +11,7 @@ from uuid import uuid4
 from typing import TypeVar
 
 
-def _hash_password(password: str) -> str:
+def _hash_password(password: str) -> bytes:
     """
     _hash_password
     """
